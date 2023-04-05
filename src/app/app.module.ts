@@ -13,9 +13,11 @@ import { OrderHistoryPageComponent } from './pages/order-history-page/order-hist
 import { OrderHistoryDetailsPageComponent } from './pages/order-history-details-page/order-history-details-page.component';
 import { LoginRegisterPageComponent } from './pages/login-register-page/login-register-page.component';
 import { EditCustomerDetailsPageComponent } from './pages/edit-customer-details-page/edit-customer-details-page.component';
-import {HeaderComponent} from './pages/shared/shared/header/header-component';
-import { SharedProductListComponent } from './pages/shared/shared/shared-product-list/shared-product-list-component';
+import {HeaderComponent} from './pages/shared/header/header-component';
+import { SharedProductListComponent } from './pages/shared/shared-product-list/shared-product-list-component';
 import {HomepageComponent} from "./pages/homepage/homepage.component";
+import { SmallHeaderComponent } from './pages/shared/small-header/small-header.component';
+import { CheckoutFooterComponent } from './pages/shared/checkout-footer/checkout-footer.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import {HomepageComponent} from "./pages/homepage/homepage.component";
     EditCustomerDetailsPageComponent,
     HeaderComponent,
     SharedProductListComponent,
+    SmallHeaderComponent,
+    CheckoutFooterComponent,
   ],
   imports: [
     BrowserModule,
