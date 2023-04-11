@@ -18,6 +18,7 @@ import { SharedProductListComponent } from './pages/shared/shared-product-list/s
 import {HomepageComponent} from "./pages/homepage/homepage.component";
 import { SmallHeaderComponent } from './pages/shared/small-header/small-header.component';
 import { CheckoutFooterComponent } from './pages/shared/checkout-footer/checkout-footer.component';
+import {allIcons, NgxBootstrapIconsModule} from "ngx-bootstrap-icons";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { CheckoutFooterComponent } from './pages/shared/checkout-footer/checkout
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgxBootstrapIconsModule.pick(allIcons)
   ],
   providers: [],
   bootstrap: [AppComponent]

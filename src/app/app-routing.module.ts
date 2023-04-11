@@ -6,6 +6,8 @@ import {ProductDetailsPageComponent} from "./pages/product-details-page/product-
 import {CartPageComponent} from "./pages/cart-page/cart-page.component";
 import {CheckoutPageComponent} from "./pages/checkout-page/checkout-page.component";
 import {CheckoutSummaryPageComponent} from "./pages/checkout-summary-page/checkout-summary-page.component";
+import {OrderConfirmationPageComponent} from "./pages/order-confirmation-page/order-confirmation-page.component";
+import {OrderHistoryPageComponent} from "./pages/order-history-page/order-history-page.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -15,6 +17,8 @@ const routes: Routes = [
   {path: 'cart', component: CartPageComponent},
   {path: 'checkout', component: CheckoutPageComponent},
   {path: 'checkout-summary', component: CheckoutSummaryPageComponent},
+  {path: 'order-confirmation', component: OrderConfirmationPageComponent},
+  {path: 'order-history', component: OrderHistoryPageComponent}
 ];
 
 @NgModule({

@@ -11,3 +11,16 @@
   margin-bottom: 20px;
   text-align: right;
 }
+
+.checkout-summary-page-privacy {
+  margin-top: 50px;
+  display: flex;
+  justify-content: right;
+}
+
+.checkout-summary-page-submit {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: right;
+}
