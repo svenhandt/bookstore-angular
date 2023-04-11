@@ -14,7 +14,6 @@ import { OrderHistoryDetailsPageComponent } from './pages/order-history-details-
 import { LoginRegisterPageComponent } from './pages/login-register-page/login-register-page.component';
 import { EditCustomerDetailsPageComponent } from './pages/edit-customer-details-page/edit-customer-details-page.component';
 import {HeaderComponent} from './pages/shared/header/header-component';
-import { SharedProductListComponent } from './pages/shared/shared-product-list/shared-product-list-component';
 import {HomepageComponent} from "./pages/homepage/homepage.component";
 import { SmallHeaderComponent } from './pages/shared/small-header/small-header.component';
 import { CheckoutFooterComponent } from './pages/shared/checkout-footer/checkout-footer.component';
@@ -35,7 +34,6 @@ import {allIcons, NgxBootstrapIconsModule} from "ngx-bootstrap-icons";
     LoginRegisterPageComponent,
     EditCustomerDetailsPageComponent,
     HeaderComponent,
-    SharedProductListComponent,
     SmallHeaderComponent,
     CheckoutFooterComponent,
   ],

@@ -1,0 +1,23 @@
+
+.login-register-header {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+
+.login-register-form {
+  max-width: 500px;
+}
+
+input#streetNumber {
+  max-width: 100px;
+}
+
+input#zipCode {
+  max-width: 150px;
+}
+
+.login-register-buttons {
+  margin-top: 25px;
+  margin-bottom: 50px;
+}

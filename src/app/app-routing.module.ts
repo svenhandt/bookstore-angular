@@ -8,6 +8,13 @@ import {CheckoutPageComponent} from "./pages/checkout-page/checkout-page.compone
 import {CheckoutSummaryPageComponent} from "./pages/checkout-summary-page/checkout-summary-page.component";
 import {OrderConfirmationPageComponent} from "./pages/order-confirmation-page/order-confirmation-page.component";
 import {OrderHistoryPageComponent} from "./pages/order-history-page/order-history-page.component";
+import {
+  OrderHistoryDetailsPageComponent
+} from "./pages/order-history-details-page/order-history-details-page.component";
+import {LoginRegisterPageComponent} from "./pages/login-register-page/login-register-page.component";
+import {
+  EditCustomerDetailsPageComponent
+} from "./pages/edit-customer-details-page/edit-customer-details-page.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -18,7 +25,10 @@ const routes: Routes = [
   {path: 'checkout', component: CheckoutPageComponent},
   {path: 'checkout-summary', component: CheckoutSummaryPageComponent},
   {path: 'order-confirmation', component: OrderConfirmationPageComponent},
-  {path: 'order-history', component: OrderHistoryPageComponent}
+  {path: 'order-history', component: OrderHistoryPageComponent},
+  {path: 'order-history-details', component: OrderHistoryDetailsPageComponent},
+  {path: 'login-register', component: LoginRegisterPageComponent},
+  {path: 'edit-customer', component: EditCustomerDetailsPageComponent}
 ];
 
 @NgModule({
