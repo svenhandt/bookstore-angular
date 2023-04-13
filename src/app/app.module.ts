@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -42,7 +42,7 @@ import {allIcons, NgxBootstrapIconsModule} from "ngx-bootstrap-icons";
     AppRoutingModule,
     NgxBootstrapIconsModule.pick(allIcons)
   ],
-  providers: [],
+  providers: [{ provide: LOCALE_ID, useValue: 'de-DE' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
