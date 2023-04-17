@@ -19,7 +19,7 @@ export class CategoryService {
       .withProjectKey({ projectKey: 'bookstore-17091979' });
   }
 
-  getAllCategories() {
+  loadAllCategories() {
     let categories: CategoryModel[] = []
     console.log(this.locale)
     this
