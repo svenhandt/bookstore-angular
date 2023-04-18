@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {CurrentPageService} from "./services/util/current-page.service";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'bookstore';
+
+  constructor(private currentPageService: CurrentPageService) {
+  }
+
+  isCheckoutPage() {
+    return this.currentPageService.isCheckoutPage()
+  }
+
 }

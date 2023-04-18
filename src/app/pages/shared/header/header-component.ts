@@ -3,6 +3,7 @@ import {CategoryService} from "../../../services/category.service";
 import {CategoryModel} from "../../../data/category.model";
 import {Subscription} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
+import {CurrentPageService} from "../../../services/util/current-page.service";
 
 @Component({
   selector: 'app-header',
@@ -12,28 +13,21 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class HeaderComponent implements OnInit, OnDestroy {
 
   categories: CategoryModel[] = []
-  categoriesSubscription: Subscription | undefined
-  queryParamsSubscription: Subscription | undefined
   selectedCategory: CategoryModel | undefined
-  selectedCategoryKey: string = ''
+
+  categoriesSubscription: Subscription | undefined
+  selectedCategorySubscription: Subscription | undefined
 
   constructor(private categoryService: CategoryService,
-              private router: Router,
-              private route: ActivatedRoute) { }
+              private router: Router) { }
 
   ngOnInit(): void {
-    this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
-      const categoryKey = params['category']
-      if(categoryKey) {
-        this.selectedCategoryKey = categoryKey
-      }
+    this.categoriesSubscription = this.categoryService.categoriesSubject.subscribe((categories: CategoryModel[]) => {
+      this.categories = categories
     })
-    this.categoriesSubscription = this.categoryService.categoriesSubject.subscribe(
-      (categories: CategoryModel[]) => {
-        this.categories = categories
-      }
-    )
-    this.categoryService.loadAllCategories()
+    this.selectedCategorySubscription = this.categoryService.selectedCategorySubject.subscribe((category: CategoryModel) => {
+      this.selectedCategory = category
+    })
   }
 
   navigateToCategory(category: CategoryModel) {
@@ -41,12 +35,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
       {queryParams: {
         category: category.key
         }})
-    this.selectedCategory = category
+    this.categoryService.setSelectedCategory(category.key)
+  }
+
+  resetSelectedCategory() {
+    this.categoryService.setSelectedCategory('')
   }
 
   ngOnDestroy(): void {
-    if(this.categoriesSubscription !== undefined) {
+    if(this.categoriesSubscription) {
       this.categoriesSubscription.unsubscribe()
+    }
+    if(this.selectedCategorySubscription) {
+      this.selectedCategorySubscription.unsubscribe()
     }
   }
 

@@ -12,16 +12,19 @@ export class CategoryService {
 
   private apiRoot: any
 
+  private categories: CategoryModel[] = []
+  private selectedCategory: CategoryModel | undefined
+
   categoriesSubject = new Subject<CategoryModel[]>()
+  selectedCategorySubject = new Subject<CategoryModel>()
 
   constructor(@Inject(LOCALE_ID) private locale: string) {
     this.apiRoot = createApiBuilderFromCtpClient(ctpClient)
       .withProjectKey({ projectKey: 'bookstore-17091979' });
+    this.loadAllCategories()
   }
 
   loadAllCategories() {
-    let categories: CategoryModel[] = []
-    console.log(this.locale)
     this
       .apiRoot
       .categories()
@@ -30,10 +33,24 @@ export class CategoryService {
       .then(({body}: any) => {
         const results: any[] = body.results
         for(let result of results) {
-          categories.push(this.buildCategory(result))
+          this.categories.push(this.buildCategory(result))
         }
-        this.categoriesSubject.next(categories)
+        this.categoriesSubject.next(this.categories)
       })
+  }
+
+  setSelectedCategory(key: string) {
+    if(!key) {
+      this.selectedCategory = new CategoryModel('', '', '')
+    }
+    if(this.categories && key) {
+      this.selectedCategory = this.categories.find(category => {
+        return key === category.key
+      })
+    }
+    if(this.selectedCategory) {
+      this.selectedCategorySubject.next(this.selectedCategory)
+    }
   }
 
   buildCategory(result: any) {
