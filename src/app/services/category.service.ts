@@ -3,6 +3,7 @@ import {createApiBuilderFromCtpClient} from "@commercetools/platform-sdk";
 import {ctpClient} from "./builder/BuildClient";
 import {CategoryModel} from "../data/category.model";
 import {Subject} from "rxjs";
+import {environment} from "../../environments/environment";
 
 
 @Injectable({
@@ -20,7 +21,7 @@ export class CategoryService {
 
   constructor(@Inject(LOCALE_ID) private locale: string) {
     this.apiRoot = createApiBuilderFromCtpClient(ctpClient)
-      .withProjectKey({ projectKey: 'bookstore-17091979' });
+      .withProjectKey({ projectKey: environment.projectKey });
     this.loadAllCategories()
   }
 
@@ -32,16 +33,20 @@ export class CategoryService {
       .execute()
       .then(({body}: any) => {
         const results: any[] = body.results
-        for(let result of results) {
+        for(const result of results) {
           this.categories.push(this.buildCategory(result))
         }
         this.categoriesSubject.next(this.categories)
       })
   }
 
+  categoriesLoaded() {
+    return this.categories.length > 0
+  }
+
   setSelectedCategory(key: string) {
     if(!key) {
-      this.selectedCategory = new CategoryModel('', '', '')
+      this.selectedCategory = new CategoryModel('', '', '', '')
     }
     if(this.categories && key) {
       this.selectedCategory = this.categories.find(category => {
@@ -54,7 +59,9 @@ export class CategoryService {
   }
 
   buildCategory(result: any) {
-    const category = new CategoryModel(result.key,
+    const category = new CategoryModel(
+      result.id,
+      result.key,
       result.name[this.locale],
       result.description[this.locale])
     return category

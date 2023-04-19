@@ -20,62 +20,16 @@
   <div class="row">
     <table class="table">
       <tbody>
-      <tr>
+      <tr *ngFor="let product of products">
         <th scope="row">
-          <img class="img-fluid" style="max-height: 200px" src="../../assets/books/node_book-big.jpeg">
+          <img class="img-fluid" style="max-height: 200px" [src]="product.imageUrl">
         </th>
         <td colspan="2">
           <div class="row">
-            <h4>Node.js – Rezepte und Lösungen</h4>
+            <h5>{{product.name}}</h5>
           </div>
           <div class="row">
-            <p>Philip Ackermann</p>
-          </div>
-        </td>
-        <td>
-          <div class="row">
-            <p>49,90</p>
-          </div>
-        </td>
-        <td>
-          <div class="row">
-            <a href="#">Details</a>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <th scope="row">
-          <img class="img-fluid" style="max-height: 200px" src="../../assets/books/node_book-big.jpeg">
-        </th>
-        <td colspan="2">
-          <div class="row">
-            <h4>Node.js – Rezepte und Lösungen</h4>
-          </div>
-          <div class="row">
-            <p>Philip Ackermann</p>
-          </div>
-        </td>
-        <td>
-          <div class="row">
-            <p>49,90</p>
-          </div>
-        </td>
-        <td>
-          <div class="row">
-            <a href="#">Details</a>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <th scope="row">
-          <img class="img-fluid" style="max-height: 200px" src="../../assets/books/node_book-big.jpeg">
-        </th>
-        <td colspan="2">
-          <div class="row">
-            <h4>Node.js – Rezepte und Lösungen</h4>
-          </div>
-          <div class="row">
-            <p>Philip Ackermann</p>
+            <p>{{product.author}}</p>
           </div>
         </td>
         <td>
