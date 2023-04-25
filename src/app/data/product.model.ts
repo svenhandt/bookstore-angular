@@ -6,7 +6,7 @@ export class ProductModel {
   name: string | undefined
   description: | undefined
   author: string | undefined
-  price: PriceModel | undefined
+  price: number | undefined
   imageUrl: string | undefined
   releaseYear: string | undefined
   numberOfPages: number | undefined

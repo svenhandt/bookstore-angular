@@ -21,21 +21,25 @@ export class ProductService {
   }
 
   loadProductsForCategory(categoryId: string) {
-    const products: ProductModel[] = []
-    this.apiRoot
-      .productProjections()
-      .get({
-        queryArgs: {
-          where: `categories(id = "${categoryId}")`
-        }
-      }).execute()
-      .then(({body}: any) => {
-        const results: any[] = body.results
-        for(const result of results) {
-          products.push(this.buildProduct(result))
-        }
-        this.productsSubject.next(products)
-      })
+    if(categoryId) {
+      const products: ProductModel[] = []
+      this.apiRoot
+        .productProjections()
+        .get({
+          queryArgs: {
+            sort: `name.${this.locale}`,
+            where: `categories(id = "${categoryId}")`
+          }
+        }).execute()
+        .then(({body}: any) => {
+          console.log(body)
+          const results: any[] = body.results
+          for(const result of results) {
+            products.push(this.buildProduct(result))
+          }
+          this.productsSubject.next(products)
+        })
+    }
   }
 
   private buildProduct(rawProduct: any) {
@@ -44,7 +48,7 @@ export class ProductService {
     product.name = rawProduct.name[this.locale]
     product.description = rawProduct.description[this.locale]
     this.setAuthor(product, rawProduct)
-    product.price = this.buildPrice(rawProduct.masterVariant)
+    this.setPrice(product, rawProduct.masterVariant)
     this.setImage(product, rawProduct)
     this.setReleaseYear(product, rawProduct)
     this.setIsbn(product, rawProduct)
@@ -68,18 +72,15 @@ export class ProductService {
     }
   }
 
-  private buildPrice(masterVariant: any) {
-    const price = new PriceModel()
+  private setPrice(product: ProductModel, masterVariant: any) {
     const rawPrices = masterVariant.prices
     if(rawPrices && rawPrices.length > 0) {
       const rawPrice = rawPrices[0]
       if(rawPrice.value) {
-        price.centAmount = rawPrice.value.centAmount
-        price.decimals = rawPrice.value.fractionDigits
-        price.currency = rawPrice.value.currencyCode
+        product.price = rawPrice.value.centAmount / 100
       }
     }
-    return price
+
   }
 
   private setReleaseYear(product: ProductModel, rawProduct: any) {

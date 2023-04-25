@@ -11,8 +11,8 @@
           Sortieren nach
         </button>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Titel</a></li>
-          <li><a class="dropdown-item" href="#">Preis</a></li>
+          <li><a [ngClass]="['dropdown-item', sortByTitle ? 'active' : '']" style="cursor: pointer">Titel</a></li>
+          <li><a [ngClass]="['dropdown-item', sortByPrice ? 'active' : '']" style="cursor: pointer">Preis</a></li>
         </ul>
       </div>
     </div>
@@ -34,7 +34,7 @@
         </td>
         <td>
           <div class="row">
-            <p>49,90</p>
+            <p>{{product.price | currency:'EUR':'symbol':'1.2-2'}}</p>
           </div>
         </td>
         <td>

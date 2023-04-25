@@ -18,6 +18,10 @@ import {HomepageComponent} from "./pages/homepage/homepage.component";
 import { SmallHeaderComponent } from './pages/shared/small-header/small-header.component';
 import { CheckoutFooterComponent } from './pages/shared/checkout-footer/checkout-footer.component';
 import {allIcons, NgxBootstrapIconsModule} from "ngx-bootstrap-icons";
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
+
+registerLocaleData(localeDe)
 
 @NgModule({
   declarations: [
