@@ -24,35 +24,29 @@ export class ProductService {
 
   loadProductsForCategory(categoryId: string) {
     if (categoryId) {
-      const products: ProductModel[] = []
-      this.apiRoot
-        .productProjections()
-        .get({
-          queryArgs: {
-            sort: `name.${this.locale}`,
-            where: `categories(id = "${categoryId}")`
-          }
-        }).execute()
-        .then(({body}: any) => {
-          const results: any[] = body.results
-          for (const result of results) {
-            products.push(this.buildProduct(result))
-          }
-          this.productsSubject.next(products)
-        })
+      this.loadProducts({
+        queryArgs: {
+          filter: `categories.id: "${categoryId}"`,
+          sort: `name.${this.locale} asc`
+        }
+      })
     }
   }
 
   loadProductsForSearchQuery(searchQuery: string) {
+    this.loadProducts({queryArgs: {
+        'text.de-DE': searchQuery
+      }
+    })
+  }
+
+  loadProducts(queryArgsObj: any) {
     const products: ProductModel[] = []
 
     this.apiRoot
       .productProjections()
       .search()
-      .get({queryArgs: {
-          'text.de-DE': searchQuery
-        }
-      })
+      .get(queryArgsObj)
       .execute()
       .then(({body}: any) => {
         const results: any[] = body.results
