@@ -1,7 +1,8 @@
 <div class="container">
   <div class="row">
     <div class="col-12 product-list-header">
-      <h3>Kategorie: {{currentCategory?.name}}</h3>
+      <h3 *ngIf="currentCategory?.id">Kategorie: {{currentCategory?.name}}</h3>
+      <h3 *ngIf="searchQuery">Ihre Suchergebnisse für: {{searchQuery}}</h3>
     </div>
   </div>
   <div class="row">
@@ -11,8 +12,20 @@
           Sortieren nach
         </button>
         <ul class="dropdown-menu">
-          <li><a [ngClass]="['dropdown-item', sortByTitle ? 'active' : '']" style="cursor: pointer">Titel</a></li>
-          <li><a [ngClass]="['dropdown-item', sortByPrice ? 'active' : '']" style="cursor: pointer">Preis</a></li>
+          <li>
+            <a [ngClass]="['dropdown-item', sortByTitle ? 'active' : '']"
+                 style="cursor: pointer"
+                 (click)="onSortProductsByTitle()">
+              Titel
+            </a>
+          </li>
+          <li>
+            <a [ngClass]="['dropdown-item', sortByPrice ? 'active' : '']"
+               style="cursor: pointer"
+               (click)="onSortProductsByPrice()">
+              Preis
+            </a>
+          </li>
         </ul>
       </div>
     </div>
@@ -39,7 +52,7 @@
         </td>
         <td>
           <div class="row">
-            <a href="#">Details</a>
+            <a class="link-info" style="cursor: pointer" (click)="navigateToProductDetails(product)">Details</a>
           </div>
         </td>
       </tr>

@@ -20,7 +20,7 @@ const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomepageComponent},
   {path: 'product-list', component: ProductListPageComponent},
-  {path: 'product-details', component: ProductDetailsPageComponent},
+  {path: 'product-details/:id', component: ProductDetailsPageComponent},
   {path: 'cart', component: CartPageComponent},
   {path: 'checkout', component: CheckoutPageComponent},
   {path: 'checkout-summary', component: CheckoutSummaryPageComponent},

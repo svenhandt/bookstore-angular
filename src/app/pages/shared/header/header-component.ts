@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CategoryService} from "../../../services/category.service";
 import {CategoryModel} from "../../../data/category.model";
 import {Subscription} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
-import {CurrentPageService} from "../../../services/util/current-page.service";
+import {Router} from "@angular/router";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-header',
@@ -17,6 +17,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   categoriesSubscription: Subscription | undefined
   selectedCategorySubscription: Subscription | undefined
+
+  @ViewChild('searchForm', {static: false}) searchForm: NgForm | undefined;
 
   constructor(private categoryService: CategoryService,
               private router: Router) { }
@@ -36,6 +38,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
         category: category.key
         }})
     this.categoryService.setSelectedCategory(category.key)
+  }
+
+  onSubmitSearchForm() {
+    if(this.searchForm) {
+      const input = this.searchForm.value.searchInput
+      if(input) {
+        this.router.navigate(['/product-list'],
+          {queryParams: {
+              q: input
+            }})
+        this.resetSelectedCategory()
+      }
+    }
+
   }
 
   resetSelectedCategory() {

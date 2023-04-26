@@ -1,22 +1,20 @@
-<app-header></app-header>
 <div class="container">
   <div class="row">
     <div class="col-12 product-details-heading">
-      <h3>Node.js – Rezepte und Lösungen</h3>
+      <h3>{{product?.name}}</h3>
     </div>
   </div>
   <div class="row">
     <div class="col-6">
-      <img class="img-fluid" style="max-height: 400px;" src="../../assets/books/node_book-big.jpeg">
+      <img class="img-fluid" style="max-height: 400px;" src="{{product?.imageUrl}}">
     </div>
     <div class="col-6">
-        <p>Ob Ihnen Node.js bereits vertraut ist oder ob Sie noch ein Neuling mit der JavaScript-Plattform sind: Manchmal ist der Wurm drin. Scheinbar unlösbare Probleme machen sich breit: Mal funktioniert der Datenbankzugriff nicht, mal laufen die Anfragen an die Webservices ins Leere. Und dabei müssten Sie Ihre Webanwendung so schnell wie möglich fertigstellen. Kurz: Ihnen fehlt das passende Rezept. Jetzt nicht mehr, denn dieses Buch ist Ihre Node.js-Rezeptsammlung für ganz konkrete Anwendungsfälle. Philip Ackermann stellt Ihnen über 100 Problemfelder aus dem Praxisalltag des Webentwicklers vor. So bekommen Sie schnell die passende Lösung und konkrete Anwendungsbeispiele an die Hand.
-        </p>
-        <p>ISBN: xxxxxxxxxxxxxxxxxxxxxxx</p>
-        <p>Autor: Philipp Ackermann</p>
-        <p>Erscheinungsjahr: 2019</p>
-        <p>651 Seiten</p>
-        <h4>49,90 Euro</h4>
+        <p>{{product?.description}}</p>
+        <p>ISBN: {{product?.isbn}}</p>
+        <p>Autor: {{product?.author}}</p>
+        <p>Erscheinungsjahr: {{product?.releaseYear}}</p>
+        <p>{{product?.numberOfPages}} Seiten</p>
+        <h4>{{product?.price | currency:'EUR':'symbol':'1.2-2'}}</h4>
     </div>
   </div>
   <div>

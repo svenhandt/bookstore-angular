@@ -38,9 +38,23 @@
           </a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Suche" aria-label="Suche">
-        <button class="btn btn-primary" type="submit">Suche</button>
+      <form
+        class="d-flex"
+        role="search"
+        (ngSubmit)="onSubmitSearchForm()"
+        #searchForm="ngForm">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Suche"
+          aria-label="Suche"
+          name="searchInput"
+          ngModel>
+        <button
+          class="btn btn-primary"
+          type="submit">
+          Suche
+        </button>
       </form>
     </div>
   </div>

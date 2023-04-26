@@ -20,6 +20,7 @@ import { CheckoutFooterComponent } from './pages/shared/checkout-footer/checkout
 import {allIcons, NgxBootstrapIconsModule} from "ngx-bootstrap-icons";
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
+import {FormsModule} from "@angular/forms";
 
 registerLocaleData(localeDe)
 
@@ -44,6 +45,7 @@ registerLocaleData(localeDe)
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     NgxBootstrapIconsModule.pick(allIcons)
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'de-DE' }],
