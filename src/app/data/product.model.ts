@@ -1,4 +1,3 @@
-import {PriceModel} from "./price.model";
 
 export class ProductModel {
 

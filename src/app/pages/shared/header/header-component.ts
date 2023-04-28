@@ -4,6 +4,8 @@ import {CategoryModel} from "../../../data/category.model";
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
+import {CartService} from "../../../services/cart.service";
+import {CartModel} from "../../../data/cart.model";
 
 @Component({
   selector: 'app-header',
@@ -14,13 +16,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   categories: CategoryModel[] = []
   selectedCategory: CategoryModel | undefined
+  currentCart: CartModel | undefined
 
   categoriesSubscription: Subscription | undefined
   selectedCategorySubscription: Subscription | undefined
+  currentCartSubscription: Subscription | undefined
 
   @ViewChild('searchForm', {static: false}) searchForm: NgForm | undefined;
 
   constructor(private categoryService: CategoryService,
+              private cartService: CartService,
               private router: Router) { }
 
   ngOnInit(): void {

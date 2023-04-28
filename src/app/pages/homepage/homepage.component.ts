@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {CurrentPageService} from "../../services/util/current-page.service";
+import {CartService} from "../../services/cart.service";
 
 @Component({
   selector: 'app-homepage',
