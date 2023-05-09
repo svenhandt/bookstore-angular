@@ -1,16 +1,12 @@
 import {Inject, Injectable, LOCALE_ID} from '@angular/core';
-import {createApiBuilderFromCtpClient} from "@commercetools/platform-sdk";
-import {ctpClient} from "./builder/BuildClient";
-import {environment} from "../../environments/environment";
 import {ProductModel} from "../data/product.model";
 import {Subject} from "rxjs";
+import apiRoot from "./builder/BuildClient";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-
-  private apiRoot: any
 
   productsSubject = new Subject<ProductModel[]>()
   currentProductSubject = new Subject<ProductModel>()
@@ -18,8 +14,7 @@ export class ProductService {
   currentProduct: ProductModel | undefined
 
   constructor(@Inject(LOCALE_ID) private locale: string) {
-    this.apiRoot = createApiBuilderFromCtpClient(ctpClient)
-      .withProjectKey({projectKey: environment.projectKey});
+
   }
 
   loadProductsForCategory(categoryId: string) {
@@ -43,7 +38,7 @@ export class ProductService {
   loadProducts(queryArgsObj: any) {
     const products: ProductModel[] = []
 
-    this.apiRoot
+    apiRoot
       .productProjections()
       .search()
       .get(queryArgsObj)
@@ -69,7 +64,7 @@ export class ProductService {
   }
 
   private loadProductFromCommercetools(productId: string) {
-    this.apiRoot
+    apiRoot
       .productProjections()
       .withId({ID: productId})
       .get()

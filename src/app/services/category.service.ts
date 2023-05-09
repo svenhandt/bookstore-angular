@@ -1,17 +1,13 @@
-import {Inject, Injectable, LOCALE_ID, OnInit} from '@angular/core';
-import {createApiBuilderFromCtpClient} from "@commercetools/platform-sdk";
-import {ctpClient} from "./builder/BuildClient";
+import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import {CategoryModel} from "../data/category.model";
 import {Subject} from "rxjs";
-import {environment} from "../../environments/environment";
+import apiRoot from "./builder/BuildClient";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
-
-  private apiRoot: any
 
   private categories: CategoryModel[] = []
   private selectedCategory: CategoryModel | undefined
@@ -20,14 +16,11 @@ export class CategoryService {
   selectedCategorySubject = new Subject<CategoryModel>()
 
   constructor(@Inject(LOCALE_ID) private locale: string) {
-    this.apiRoot = createApiBuilderFromCtpClient(ctpClient)
-      .withProjectKey({ projectKey: environment.projectKey });
     this.loadAllCategories()
   }
 
   loadAllCategories() {
-    this
-      .apiRoot
+    apiRoot
       .categories()
       .get()
       .execute()

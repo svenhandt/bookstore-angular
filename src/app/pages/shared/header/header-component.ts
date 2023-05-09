@@ -35,6 +35,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.selectedCategorySubscription = this.categoryService.selectedCategorySubject.subscribe((category: CategoryModel) => {
       this.selectedCategory = category
     })
+    this.currentCartSubscription = this.cartService.cartSubject.subscribe((cart: CartModel) => {
+      this.currentCart = cart
+      console.log(this.currentCart)
+    })
+    this.cartService.retrieveCurrentCart()
   }
 
   navigateToCategory(category: CategoryModel) {
@@ -61,6 +66,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   resetSelectedCategory() {
     this.categoryService.setSelectedCategory('')
+  }
+
+  getCurrentCartLength() {
+    let result = 0
+    if(this.currentCart && this.currentCart.entries)  {
+      result = this.currentCart.entries.length
+    }
+    return result
   }
 
   ngOnDestroy(): void {

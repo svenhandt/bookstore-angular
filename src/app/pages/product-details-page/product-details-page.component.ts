@@ -33,6 +33,10 @@ export class ProductDetailsPageComponent implements OnInit, OnDestroy {
       );
   }
 
+  onAddToCart() {
+
+  }
+
   ngOnDestroy(): void {
     if(this.productSubscription) {
       this.productSubscription.unsubscribe()
