@@ -87,7 +87,6 @@ export class CartService {
     cart.customerId = body.anonymousId
     this.buildCartEntries(cart, body)
     cart.totalPrice = body.totalPrice.centAmount / 100
-    console.log(cart)
     this.cartSubject.next(cart)
   }
 
@@ -97,14 +96,13 @@ export class CartService {
       for(const lineItem of lineItems) {
         const cartEntry : CartEntryModel = new CartEntryModel()
         cartEntry.id = lineItem.id
-        this.setProductForCartEntry(cartEntry, lineItem.productId)
-        cart.entries?.push(cartEntry)
+        this.setProductForCartEntry(cart, cartEntry, lineItem.productId)
       }
     }
   }
 
 
-  private setProductForCartEntry(cartEntry: CartEntryModel, productId: string) {
+  private setProductForCartEntry(cart: CartModel, cartEntry: CartEntryModel, productId: string) {
     apiRoot
       .productProjections()
       .withId({ID: productId})
@@ -115,6 +113,9 @@ export class CartService {
         if(body) {
           const product = this.productService.buildProduct(body)
           cartEntry.product = product
+          cart.entries?.push(cartEntry)
+          this.cartSubject.next(cart)
+          console.log(cart)
         }
       })
   }
