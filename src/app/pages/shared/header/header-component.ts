@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CategoryService} from "../../../services/category.service";
 import {CategoryModel} from "../../../data/category.model";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
 import {CartService} from "../../../services/cart.service";
@@ -16,11 +16,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   categories: CategoryModel[] = []
   selectedCategory: CategoryModel | undefined
-  currentCart: CartModel | undefined
+  currentCart$: Observable<CartModel> | undefined
 
   categoriesSubscription: Subscription | undefined
   selectedCategorySubscription: Subscription | undefined
-  currentCartSubscription: Subscription | undefined
 
   @ViewChild('searchForm', {static: false}) searchForm: NgForm | undefined;
 
@@ -35,10 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.selectedCategorySubscription = this.categoryService.selectedCategorySubject.subscribe((category: CategoryModel) => {
       this.selectedCategory = category
     })
-    this.currentCartSubscription = this.cartService.cartSubject.subscribe((cart: CartModel) => {
-      this.currentCart = cart
-      console.log(this.currentCart)
-    })
+    this.currentCart$ = this.cartService.currentCart$
     this.cartService.retrieveCurrentCart()
   }
 
@@ -68,10 +64,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.categoryService.setSelectedCategory('')
   }
 
-  getCurrentCartLength() {
+  getCurrentCartLength(cart: CartModel | null) {
     let result = 0
-    if(this.currentCart && this.currentCart.entries)  {
-      result = this.currentCart.entries.length
+    if(cart && cart.entries)  {
+      result = cart.entries.length
     }
     return result
   }

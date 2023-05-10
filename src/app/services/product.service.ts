@@ -1,6 +1,6 @@
 import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import {ProductModel} from "../data/product.model";
-import {Subject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 import apiRoot from "./builder/BuildClient";
 
 @Injectable({
@@ -8,8 +8,8 @@ import apiRoot from "./builder/BuildClient";
 })
 export class ProductService {
 
-  productsSubject = new Subject<ProductModel[]>()
-  currentProductSubject = new Subject<ProductModel>()
+  productsSubject = new BehaviorSubject<ProductModel[]>([])
+  currentProductSubject = new BehaviorSubject<ProductModel>(new ProductModel())
 
   currentProduct: ProductModel | undefined
 
@@ -78,7 +78,7 @@ export class ProductService {
       })
   }
 
-  private buildProduct(rawProduct: any) {
+  buildProduct(rawProduct: any) {
     const product = new ProductModel()
     product.id = rawProduct.id
     product.name = rawProduct.name[this.locale]

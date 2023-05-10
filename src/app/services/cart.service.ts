@@ -1,19 +1,20 @@
 import {Injectable} from '@angular/core';
 import {CartModel} from "../data/cart.model";
-import {Subject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 import {ProductModel} from "../data/product.model";
 import apiRoot from "./builder/BuildClient";
+import {CartEntryModel} from "../data/cartentry.model";
+import {ProductService} from "./product.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  private currentCart : CartModel | undefined
+  cartSubject = new BehaviorSubject<CartModel>(new CartModel())
+  currentCart$ = this.cartSubject.asObservable()
 
-  cartSubject = new Subject<CartModel>()
-
-  constructor() {
+  constructor(private productService: ProductService) {
 
   }
 
@@ -22,7 +23,34 @@ export class CartService {
   }
 
   addToCart(product: ProductModel) {
+    const currentCart = this.cartSubject.getValue()
+    if(currentCart) {
+      const id = currentCart.id
+      const version = currentCart.version
+      if(id && version) {
+        apiRoot
+          .me()
+          .carts()
+          .withId({ID: id})
+          .post({
+            body: {
+              version: version,
+              actions: [
+                {
+                  action: 'addLineItem',
+                  productId: product.id
+                }
+              ]
+            }
+          })
+          .execute()
+          .then(({body}: any) => {
+            console.log(body)
+            this.getActiveCart()
+          })
 
+      }
+    }
   }
 
   private getActiveCart() {
@@ -53,13 +81,42 @@ export class CartService {
   }
 
   private buildCartAndNext(body: any) {
-    this.currentCart = new CartModel()
-    this.currentCart.id = body.id
-    this.currentCart.version = body.version
-    this.currentCart.customerId = body.anonymousId
-    this.currentCart.entries = []
-    this.currentCart.totalPrice = body.totalPrice.centAmount / 100
-    this.cartSubject.next(this.currentCart)
+    const cart = new CartModel()
+    cart.id = body.id
+    cart.version = body.version
+    cart.customerId = body.anonymousId
+    this.buildCartEntries(cart, body)
+    cart.totalPrice = body.totalPrice.centAmount / 100
+    console.log(cart)
+    this.cartSubject.next(cart)
+  }
+
+  private buildCartEntries(cart: CartModel, body: any) {
+    const lineItems: any[] = body.lineItems
+    if(lineItems) {
+      for(const lineItem of lineItems) {
+        const cartEntry : CartEntryModel = new CartEntryModel()
+        cartEntry.id = lineItem.id
+        this.setProductForCartEntry(cartEntry, lineItem.productId)
+        cart.entries?.push(cartEntry)
+      }
+    }
+  }
+
+
+  private setProductForCartEntry(cartEntry: CartEntryModel, productId: string) {
+    apiRoot
+      .productProjections()
+      .withId({ID: productId})
+      .get()
+      .execute()
+      .then(({body}: any) => {
+        console.log(body)
+        if(body) {
+          const product = this.productService.buildProduct(body)
+          cartEntry.product = product
+        }
+      })
   }
 
 }
