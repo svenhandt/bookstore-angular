@@ -10,7 +10,7 @@ import apiRoot from "./builder/BuildClient";
 export class CategoryService {
 
   private categories: CategoryModel[] = []
-  private selectedCategory: CategoryModel | undefined
+  private selectedCategory: CategoryModel
 
   categoriesSubject = new Subject<CategoryModel[]>()
   selectedCategorySubject = new Subject<CategoryModel>()

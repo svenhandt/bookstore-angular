@@ -12,9 +12,9 @@ import {CartService} from "../../services/cart.service";
 })
 export class ProductDetailsPageComponent implements OnInit, OnDestroy {
 
-  product: ProductModel | undefined
-  productSubscription: Subscription | undefined
-  paramsSubscription: Subscription | undefined
+  product: ProductModel
+  productSubscription: Subscription
+  paramsSubscription: Subscription
 
   constructor(private productService: ProductService,
               private route: ActivatedRoute,

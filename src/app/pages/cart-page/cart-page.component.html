@@ -4,114 +4,54 @@
       <h3>Ihr Warenkorb</h3>
     </div>
   </div>
-  <div class="row">
-    <table class="table">
-      <tbody>
-      <tr>
-        <th scope="row">
-          <img class="img-fluid" style="max-height: 200px" src="../../assets/books/node_book-big.jpeg">
-        </th>
-        <td>
-          <div class="row">
-            <h4>Node.js – Rezepte und Lösungen</h4>
-          </div>
-          <div class="row">
-            <p>Philip Ackermann</p>
-          </div>
-          <div class="row">
-            <p>ISBN: xxxxxxxxxxxxxxxxxxx</p>
-          </div>
-        </td>
-        <td>
-          <div class="row">
-            <p>Anzahl: 1</p>
-          </div>
-        </td>
-        <td>
-          <div class="row">
-            <p style="font-weight: bold">49,90</p>
-          </div>
-        </td>
-        <td>
-          <div class="row">
-            <button class="btn btn-danger btn-sm" type="button">Entfernen</button>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <th scope="row">
-          <img class="img-fluid" style="max-height: 200px" src="../../assets/books/node_book-big.jpeg">
-        </th>
-        <td>
-          <div class="row">
-            <h4>Node.js – Rezepte und Lösungen</h4>
-          </div>
-          <div class="row">
-            <p>Philip Ackermann</p>
-          </div>
-          <div class="row">
-            <p>ISBN: xxxxxxxxxxxxxxxxxxx</p>
-          </div>
-        </td>
-        <td>
-          <div class="row">
-            <p>Anzahl: 1</p>
-          </div>
-        </td>
-        <td>
-          <div class="row">
-            <p style="font-weight: bold">49,90</p>
-          </div>
-        </td>
-        <td>
-          <div class="row">
-            <button class="btn btn-danger btn-sm" type="button">Entfernen</button>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <th scope="row">
-          <img class="img-fluid" style="max-height: 200px" src="../../assets/books/node_book-big.jpeg">
-        </th>
-        <td>
-          <div class="row">
-            <h4>Node.js – Rezepte und Lösungen</h4>
-          </div>
-          <div class="row">
-            <p>Philip Ackermann</p>
-          </div>
-          <div class="row">
-            <p>ISBN: xxxxxxxxxxxxxxxxxxx</p>
-          </div>
-        </td>
-        <td>
-          <div class="row">
-            <p>Anzahl: 1</p>
-          </div>
-        </td>
-        <td>
-          <div class="row">
-            <p style="font-weight: bold">49,90</p>
-          </div>
-        </td>
-        <td>
-          <div class="row">
-            <button class="btn btn-danger btn-sm" type="button">Entfernen</button>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="row">
-    <div class="col-12 cart-page-total">
-      <h4>Gesamtpreis: 149,70</h4>
-      <p>MwSt: 23,90</p>
+  <ng-container *ngIf="(currentCart$ | async) as cart">
+    <div class="row">
+      <table class="table">
+        <tbody>
+        <tr *ngFor="let entry of cart.entries">
+          <th scope="row">
+            <img class="img-fluid" style="max-height: 200px" [src]="entry.product.imageUrl">
+          </th>
+          <td>
+            <div class="row">
+              <h4>{{entry.product.name}}</h4>
+            </div>
+            <div class="row">
+              <p>{{entry.product.author}}</p>
+            </div>
+            <div class="row">
+              <p>ISBN: {{entry.product.isbn}}</p>
+            </div>
+          </td>
+          <td>
+            <div class="row">
+              <p>Anzahl: {{entry.quantity}}</p>
+            </div>
+          </td>
+          <td>
+            <div class="row">
+              <p style="font-weight: bold">{{entry.entryTotalPrice | currency:'EUR':'symbol':'1.2-2'}}</p>
+            </div>
+          </td>
+          <td>
+            <div class="row">
+              <button class="btn btn-danger btn-sm" type="button">Entfernen</button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-12 checkout">
-      <button class="btn btn-primary" type="button">Zum Kauf</button>
+    <div class="row">
+      <div class="col-12 cart-page-total">
+        <h4>Gesamtpreis: {{cart.totalPrice | currency:'EUR':'symbol':'1.2-2'}}</h4>
+        <p>MwSt: 23,90</p>
+      </div>
     </div>
-  </div>
+    <div class="row">
+      <div class="col-12 checkout">
+        <button class="btn btn-primary" type="button">Zum Kauf</button>
+      </div>
+    </div>
+  </ng-container>
 </div>

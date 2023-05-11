@@ -15,13 +15,13 @@ import {CartModel} from "../../../data/cart.model";
 export class HeaderComponent implements OnInit, OnDestroy {
 
   categories: CategoryModel[] = []
-  selectedCategory: CategoryModel | undefined
-  currentCart$: Observable<CartModel> | undefined
+  selectedCategory: CategoryModel
+  currentCart$: Observable<CartModel>
 
-  categoriesSubscription: Subscription | undefined
-  selectedCategorySubscription: Subscription | undefined
+  categoriesSubscription: Subscription
+  selectedCategorySubscription: Subscription
 
-  @ViewChild('searchForm', {static: false}) searchForm: NgForm | undefined;
+  @ViewChild('searchForm', {static: false}) searchForm: NgForm
 
   constructor(private categoryService: CategoryService,
               private cartService: CartService,

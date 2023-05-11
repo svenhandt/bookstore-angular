@@ -11,7 +11,7 @@ export class ProductService {
   productsSubject = new BehaviorSubject<ProductModel[]>([])
   currentProductSubject = new BehaviorSubject<ProductModel>(new ProductModel())
 
-  currentProduct: ProductModel | undefined
+  currentProduct: ProductModel
 
   constructor(@Inject(LOCALE_ID) private locale: string) {
 

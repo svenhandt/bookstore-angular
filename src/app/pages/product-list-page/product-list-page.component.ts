@@ -14,11 +14,11 @@ import {ProductModel} from "../../data/product.model";
 })
 export class ProductListPageComponent implements OnInit, OnDestroy {
 
-  currentCategory: CategoryModel | undefined
+  currentCategory: CategoryModel
   products: ProductModel[] = []
 
-  paramsSubscription: Subscription | undefined
-  productsSubscription : Subscription | undefined
+  paramsSubscription: Subscription
+  productsSubscription : Subscription
 
   sortByTitle: boolean = false
   sortByPrice: boolean = false

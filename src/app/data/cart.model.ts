@@ -2,10 +2,10 @@ import {CartEntryModel} from "./cartentry.model";
 
 export class CartModel {
 
-  id: string | undefined
-  version: number | undefined
-  customerId: string | undefined
+  id: string
+  version: number
+  customerId: string
   entries : CartEntryModel[] = []
-  totalPrice: number | undefined
+  totalPrice: number
 
 }
