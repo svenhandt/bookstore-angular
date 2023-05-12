@@ -33,10 +33,11 @@ export class ProductListPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sortByTitle = true
-    this.productsSubscription = this.categoryService.selectedCategorySubject.pipe(switchMap((value: CategoryModel, index: number) => {
-      this.currentCategory = value
-      this.loadProducts()
-      return this.productService.productsSubject
+    this.productsSubscription = this.categoryService.selectedCategorySubject.pipe(
+        switchMap((value: CategoryModel, index: number) => {
+          this.currentCategory = value
+          this.loadProducts()
+          return this.productService.productsSubject
     })).subscribe((products: ProductModel[]) => {
       this.products = products
     })

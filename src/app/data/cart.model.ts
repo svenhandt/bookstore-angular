@@ -7,5 +7,6 @@ export class CartModel {
   customerId: string
   entries : CartEntryModel[] = []
   totalPrice: number
+  totalTax: number
 
 }

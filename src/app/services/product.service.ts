@@ -11,6 +11,9 @@ export class ProductService {
   productsSubject = new BehaviorSubject<ProductModel[]>([])
   currentProductSubject = new BehaviorSubject<ProductModel>(new ProductModel())
 
+  products$ = this.productsSubject.asObservable()
+  currentProduct$ = this.currentProductSubject.asObservable()
+
   currentProduct: ProductModel
 
   constructor(@Inject(LOCALE_ID) private locale: string) {
@@ -55,9 +58,8 @@ export class ProductService {
 
   loadProductForId(productId: string) {
     if (productId) {
-      if (this.currentProduct && this.currentProduct.id === productId) {
-        this.currentProductSubject.next(this.currentProduct)
-      } else {
+      const currentProduct = this.currentProductSubject.getValue()
+      if (!currentProduct || currentProduct.id !== productId) {
         this.loadProductFromCommercetools(productId)
       }
     }
@@ -72,8 +74,8 @@ export class ProductService {
       .then(({body}: any) => {
         console.log(body)
         if(body) {
-          this.currentProduct = this.buildProduct(body)
-          this.currentProductSubject.next(this.currentProduct)
+          const product = this.buildProduct(body)
+          this.currentProductSubject.next(product)
         }
       })
   }

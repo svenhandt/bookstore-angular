@@ -18,6 +18,12 @@
   margin-bottom: 100px;
 }
 
+.empty-cart {
+  text-align: center;
+  color: darkblue;
+  font-style: italic;
+}
+
 .checkout button {
   min-width: 200px;
 }

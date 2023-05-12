@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ProductModel} from "../../data/product.model";
 import {Subscription} from "rxjs";
 import {ProductService} from "../../services/product.service";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {CartService} from "../../services/cart.service";
 
 @Component({
@@ -18,7 +18,8 @@ export class ProductDetailsPageComponent implements OnInit, OnDestroy {
 
   constructor(private productService: ProductService,
               private route: ActivatedRoute,
-              private cartService: CartService) { }
+              private cartService: CartService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.productService.currentProductSubject.subscribe((product: ProductModel) => {
@@ -38,6 +39,7 @@ export class ProductDetailsPageComponent implements OnInit, OnDestroy {
   onAddToCart() {
     if(this.product) {
       this.cartService.addToCart(this.product)
+      this.router.navigate(['/cart'])
     }
   }
 

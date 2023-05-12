@@ -1,6 +1,6 @@
 import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import {CategoryModel} from "../data/category.model";
-import {Subject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 import apiRoot from "./builder/BuildClient";
 
 
@@ -12,8 +12,11 @@ export class CategoryService {
   private categories: CategoryModel[] = []
   private selectedCategory: CategoryModel
 
-  categoriesSubject = new Subject<CategoryModel[]>()
-  selectedCategorySubject = new Subject<CategoryModel>()
+  categoriesSubject = new BehaviorSubject<CategoryModel[]>([])
+  selectedCategorySubject = new BehaviorSubject<CategoryModel>(null)
+
+  categories$ = this.categoriesSubject.asObservable()
+  selectedCategory$ = this.selectedCategorySubject.asObservable()
 
   constructor(@Inject(LOCALE_ID) private locale: string) {
     this.loadAllCategories()

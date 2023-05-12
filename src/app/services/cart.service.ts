@@ -4,6 +4,7 @@ import {BehaviorSubject, Subject} from "rxjs";
 import {ProductModel} from "../data/product.model";
 import apiRoot from "./builder/BuildClient";
 import {CartEntryModel} from "../data/cartentry.model";
+import {MyCartUpdateAction} from "@commercetools/platform-sdk";
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,20 @@ export class CartService {
   }
 
   addToCart(product: ProductModel) {
+    this.updateCart({
+      action: 'addLineItem',
+      productId: product.id
+    })
+  }
+
+  removeFromCart(cartEntry: CartEntryModel) {
+    this.updateCart({
+      action: 'removeLineItem',
+      lineItemId: cartEntry.id
+    })
+  }
+
+  private updateCart(updateAction: MyCartUpdateAction) {
     const currentCart = this.cartSubject.getValue()
     if(currentCart) {
       const id = currentCart.id
@@ -35,10 +50,7 @@ export class CartService {
             body: {
               version: version,
               actions: [
-                {
-                  action: 'addLineItem',
-                  productId: product.id
-                }
+                updateAction
               ]
             }
           })
@@ -47,7 +59,6 @@ export class CartService {
             console.log(body)
             this.getActiveCart()
           })
-
       }
     }
   }

@@ -1,25 +1,29 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CategoryService} from "../../../services/category.service";
 import {CategoryModel} from "../../../data/category.model";
-import {Observable, Subscription} from "rxjs";
+import {combineLatest, map, Observable, startWith, Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
 import {CartService} from "../../../services/cart.service";
 import {CartModel} from "../../../data/cart.model";
+
+interface HeaderComponentData {
+  categories: CategoryModel[]
+  selectedCategory: CategoryModel
+  currentCart: CartModel
+}
 
 @Component({
   selector: 'app-header',
   templateUrl: './header-component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit {
 
-  categories: CategoryModel[] = []
-  selectedCategory: CategoryModel
+  headerComponentData$: Observable<HeaderComponentData>
+  categories$: Observable<CategoryModel[]>
+  selectedCategory$: Observable<CategoryModel>
   currentCart$: Observable<CartModel>
-
-  categoriesSubscription: Subscription
-  selectedCategorySubscription: Subscription
 
   @ViewChild('searchForm', {static: false}) searchForm: NgForm
 
@@ -28,17 +32,29 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnInit(): void {
-    this.categoriesSubscription = this.categoryService.categoriesSubject.subscribe((categories: CategoryModel[]) => {
-      this.categories = categories
-    })
-    this.selectedCategorySubscription = this.categoryService.selectedCategorySubject.subscribe((category: CategoryModel) => {
-      this.selectedCategory = category
-    })
-    this.currentCart$ = this.cartService.currentCart$
+    const categories$ = this.categoryService.categories$.pipe(
+      startWith([])
+    )
+    const selectedCategory$ = this.categoryService.selectedCategory$.pipe(
+      startWith(null)
+    )
+    const currentCart$ = this.cartService.currentCart$.pipe(
+      startWith(null)
+    )
+    this.headerComponentData$ = combineLatest([categories$, selectedCategory$, currentCart$])
+      .pipe(
+        map(([categories, selectedCategory, currentCart]) => {
+          return {
+            categories: categories,
+            selectedCategory: selectedCategory,
+            currentCart: currentCart
+          }
+        })
+      )
     this.cartService.retrieveCurrentCart()
   }
 
-  navigateToCategory(category: CategoryModel) {
+  onNavigateToCategory(category: CategoryModel) {
     this.router.navigate(['/product-list'],
       {queryParams: {
         category: category.key
@@ -60,10 +76,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   }
 
-  resetSelectedCategory() {
-    this.categoryService.setSelectedCategory('')
-  }
-
   getCurrentCartLength(cart: CartModel | null) {
     let result = 0
     if(cart && cart.entries)  {
@@ -72,13 +84,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return result
   }
 
-  ngOnDestroy(): void {
-    if(this.categoriesSubscription) {
-      this.categoriesSubscription.unsubscribe()
-    }
-    if(this.selectedCategorySubscription) {
-      this.selectedCategorySubscription.unsubscribe()
-    }
+  resetSelectedCategory() {
+    this.categoryService.setSelectedCategory('')
   }
 
 }
