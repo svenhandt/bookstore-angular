@@ -29,7 +29,7 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled">Login/Registrierung</a>
+            <a class="nav-link" style="cursor: pointer" routerLink="/login-register" routerLinkActive="active">Login/Registrierung</a>
           </li>
         </ul>
         <ul class="navbar-nav">
@@ -39,7 +39,8 @@
                routerLink="/cart"
                routerLinkActive="active"
                (click)="resetSelectedCategory()">
-              <i-bs width="2rem" height="2rem" name="cart"></i-bs>&nbsp;{{getCurrentCartLength(currentCart$ | async) === 0 ? '' : '(' + getCurrentCartLength(currentCart$ | async) + ')'}}
+              <i-bs width="2rem" height="2rem" name="cart"></i-bs>&nbsp;
+              {{getCurrentCartLength(headerComponentData.currentCart) === 0 ? '' : '(' + getCurrentCartLength(headerComponentData.currentCart) + ')'}}
             </a>
           </li>
         </ul>

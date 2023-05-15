@@ -25,6 +25,7 @@ export class ProductListPageComponent implements OnInit, OnDestroy {
 
   searchQuery: string = ''
 
+
   constructor(private route: ActivatedRoute,
               private currentPageService: CurrentPageService,
               private categoryService: CategoryService,
@@ -33,6 +34,7 @@ export class ProductListPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sortByTitle = true
+
     this.productsSubscription = this.categoryService.selectedCategorySubject.pipe(
         switchMap((value: CategoryModel, index: number) => {
           this.currentCategory = value

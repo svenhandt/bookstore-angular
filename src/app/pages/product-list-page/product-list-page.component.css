@@ -11,3 +11,9 @@
   justify-content: right;
   margin-bottom: 20px;
 }
+
+.nobooks {
+  text-align: center;
+  color: darkblue;
+  font-style: italic;
+}
