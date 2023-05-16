@@ -4,7 +4,7 @@ import {BehaviorSubject, Subject} from "rxjs";
 import {ProductModel} from "../data/product.model";
 import apiRoot from "./builder/BuildClient";
 import {CartEntryModel} from "../data/cartentry.model";
-import {MyCartUpdateAction} from "@commercetools/platform-sdk";
+import {Cart, ClientResponse, MyCartUpdateAction} from "@commercetools/platform-sdk";
 
 @Injectable({
   providedIn: 'root'
@@ -55,8 +55,7 @@ export class CartService {
             }
           })
           .execute()
-          .then(({body}: any) => {
-            console.log(body)
+          .then(({body}: ClientResponse<Cart>) => {
             this.getActiveCart()
           })
       }

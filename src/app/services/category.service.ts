@@ -2,6 +2,7 @@ import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import {CategoryModel} from "../data/category.model";
 import {BehaviorSubject, Subject} from "rxjs";
 import apiRoot from "./builder/BuildClient";
+import {Category, CategoryPagedQueryResponse, ClientResponse} from "@commercetools/platform-sdk";
 
 
 @Injectable({
@@ -27,8 +28,8 @@ export class CategoryService {
       .categories()
       .get()
       .execute()
-      .then(({body}: any) => {
-        const results: any[] = body.results
+      .then(({body}: ClientResponse<CategoryPagedQueryResponse>) => {
+        const results: Category[] = body.results
         for(const result of results) {
           this.categories.push(this.buildCategory(result))
         }
@@ -54,7 +55,7 @@ export class CategoryService {
     }
   }
 
-  buildCategory(result: any) {
+  buildCategory(result: Category) {
     const category = new CategoryModel(
       result.id,
       result.key,

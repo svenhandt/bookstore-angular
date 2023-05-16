@@ -2,6 +2,12 @@ import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import {ProductModel} from "../data/product.model";
 import {BehaviorSubject, Subject} from "rxjs";
 import apiRoot from "./builder/BuildClient";
+import {
+  ClientResponse,
+  ProductProjection,
+  ProductProjectionPagedSearchResponse,
+  ProductVariant
+} from "@commercetools/platform-sdk";
 
 @Injectable({
   providedIn: 'root'
@@ -46,8 +52,8 @@ export class ProductService {
       .search()
       .get(queryArgsObj)
       .execute()
-      .then(({body}: any) => {
-        const results: any[] = body.results
+      .then(({body}: ClientResponse<ProductProjectionPagedSearchResponse>) => {
+        const results: ProductProjection[] = body.results
         for (const result of results) {
           products.push(this.buildProduct(result))
         }
@@ -71,8 +77,7 @@ export class ProductService {
       .withId({ID: productId})
       .get()
       .execute()
-      .then(({body}: any) => {
-        console.log(body)
+      .then(({body}: ClientResponse<ProductProjection>) => {
         if(body) {
           const product = this.buildProduct(body)
           this.currentProductSubject.next(product)
@@ -80,7 +85,7 @@ export class ProductService {
       })
   }
 
-  buildProduct(rawProduct: any) {
+  buildProduct(rawProduct: ProductProjection) {
     const product = new ProductModel()
     product.id = rawProduct.id
     product.name = rawProduct.name[this.locale]
@@ -94,7 +99,7 @@ export class ProductService {
     return product
   }
 
-  private setAuthor(product: ProductModel, rawProduct: any) {
+  private setAuthor(product: ProductModel, rawProduct: ProductProjection) {
     const authorData = rawProduct.masterVariant.attributes.find((attribute: any) => {
       return attribute.name === 'author'
     })
@@ -103,14 +108,14 @@ export class ProductService {
     }
   }
 
-  private setImage(product: ProductModel, rawProduct: any) {
+  private setImage(product: ProductModel, rawProduct: ProductProjection) {
     const images = rawProduct.masterVariant.images
     if (images && images.length > 0) {
       product.imageUrl = images[0].url
     }
   }
 
-  private setPrice(product: ProductModel, masterVariant: any) {
+  private setPrice(product: ProductModel, masterVariant: ProductVariant) {
     const rawPrices = masterVariant.prices
     if (rawPrices && rawPrices.length > 0) {
       const rawPrice = rawPrices[0]
@@ -121,7 +126,7 @@ export class ProductService {
 
   }
 
-  private setReleaseYear(product: ProductModel, rawProduct: any) {
+  private setReleaseYear(product: ProductModel, rawProduct: ProductProjection) {
     const releaseYearData = rawProduct.masterVariant.attributes.find((attribute: any) => {
       return attribute.name === 'publishingYear'
     })
@@ -130,7 +135,7 @@ export class ProductService {
     }
   }
 
-  private setIsbn(product: ProductModel, rawProduct: any) {
+  private setIsbn(product: ProductModel, rawProduct: ProductProjection) {
     const isbnData = rawProduct.masterVariant.attributes.find((attribute: any) => {
       return attribute.name === 'isbn'
     })
@@ -139,7 +144,7 @@ export class ProductService {
     }
   }
 
-  private setNumberOfPages(product: ProductModel, rawProduct: any) {
+  private setNumberOfPages(product: ProductModel, rawProduct: ProductProjection) {
     const numberOfPagesData = rawProduct.masterVariant.attributes.find((attribute: any) => {
       return attribute.name === 'numberOfPages'
     })
