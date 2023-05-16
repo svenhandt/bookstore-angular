@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
-import {CustomerModel} from "../data/customer.model";
 import {
   ClientResponse,
   Customer,
@@ -15,7 +14,7 @@ import apiRoot from "./builder/BuildClient";
 })
 export class CustomerService {
 
-  currentCustomerSubject = new BehaviorSubject<CustomerModel>(null)
+  currentCustomerSubject = new BehaviorSubject<Customer>(null)
   currentCustomer$ = this.currentCustomerSubject.asObservable()
 
   constructor() {
@@ -32,7 +31,7 @@ export class CustomerService {
       )
       .execute()
       .then(({body}: ClientResponse<CustomerSignInResult>) => {
-
+        console.log(body)
       })
   }
 

@@ -15,7 +15,7 @@
             <a [ngClass]="['nav-link', headerComponentData.selectedCategory && category.key === headerComponentData.selectedCategory.key ? 'active' : '']"
                style="cursor: pointer;"
                (click)="onNavigateToCategory(category)">
-              {{category.name}}
+              {{category.name | localized}}
             </a>
           </li>
           <li class="nav-item dropdown">
@@ -29,7 +29,11 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link" style="cursor: pointer" routerLink="/login-register" routerLinkActive="active">Login/Registrierung</a>
+            <a class="nav-link"
+               style="cursor: pointer"
+               routerLink="/login-register"
+               routerLinkActive="active"
+               (click)="resetSelectedCategory()">Login/Registrierung</a>
           </li>
         </ul>
         <ul class="navbar-nav">

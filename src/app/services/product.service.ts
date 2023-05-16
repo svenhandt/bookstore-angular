@@ -1,6 +1,6 @@
 import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import {ProductModel} from "../data/product.model";
-import {BehaviorSubject, Subject} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import apiRoot from "./builder/BuildClient";
 import {
   ClientResponse,

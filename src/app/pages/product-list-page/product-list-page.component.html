@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-12 product-list-header">
-      <h3 *ngIf="currentCategory?.id">Kategorie: {{currentCategory?.name}}</h3>
+      <h3 *ngIf="currentCategory?.id">Kategorie: {{currentCategory?.name | localized}}</h3>
       <h3 *ngIf="searchQuery">Ihre Suchergebnisse für: {{searchQuery}}</h3>
     </div>
   </div>

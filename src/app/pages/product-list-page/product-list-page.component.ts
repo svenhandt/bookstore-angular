@@ -2,10 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {CurrentPageService} from "../../services/util/current-page.service";
 import {CategoryService} from "../../services/category.service";
-import {CategoryModel} from "../../data/category.model";
 import {Subscription, switchMap} from "rxjs";
 import {ProductService} from "../../services/product.service";
 import {ProductModel} from "../../data/product.model";
+import {Category} from "@commercetools/platform-sdk";
 
 @Component({
   selector: 'app-product-list-page',
@@ -14,7 +14,7 @@ import {ProductModel} from "../../data/product.model";
 })
 export class ProductListPageComponent implements OnInit, OnDestroy {
 
-  currentCategory: CategoryModel
+  currentCategory: Category
   products: ProductModel[] = []
 
   paramsSubscription: Subscription
@@ -36,7 +36,7 @@ export class ProductListPageComponent implements OnInit, OnDestroy {
     this.sortByTitle = true
 
     this.productsSubscription = this.categoryService.selectedCategorySubject.pipe(
-        switchMap((value: CategoryModel, index: number) => {
+        switchMap((value: Category, index: number) => {
           this.currentCategory = value
           this.loadProducts()
           return this.productService.productsSubject
@@ -88,7 +88,7 @@ export class ProductListPageComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToParamsCategoriesNotLoaded() {
-    this.paramsSubscription = this.categoryService.categoriesSubject.pipe(switchMap((value: CategoryModel[], index: number) => {
+    this.paramsSubscription = this.categoryService.categoriesSubject.pipe(switchMap((value: Category[], index: number) => {
       return this.route.queryParams
     })).subscribe((params: Params) => {
       this.setSelectedCategoryOrSearchQuery(params)

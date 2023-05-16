@@ -1,15 +1,15 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CategoryService} from "../../../services/category.service";
-import {CategoryModel} from "../../../data/category.model";
-import {combineLatest, map, Observable, startWith, Subscription} from "rxjs";
+import {combineLatest, map, Observable, startWith} from "rxjs";
 import {Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
 import {CartService} from "../../../services/cart.service";
 import {CartModel} from "../../../data/cart.model";
+import {Category} from "@commercetools/platform-sdk";
 
 interface HeaderComponentData {
-  categories: CategoryModel[]
-  selectedCategory: CategoryModel
+  categories: Category[]
+  selectedCategory: Category
   currentCart: CartModel
 }
 
@@ -21,8 +21,8 @@ interface HeaderComponentData {
 export class HeaderComponent implements OnInit {
 
   headerComponentData$: Observable<HeaderComponentData>
-  categories$: Observable<CategoryModel[]>
-  selectedCategory$: Observable<CategoryModel>
+  categories$: Observable<Category[]>
+  selectedCategory$: Observable<Category>
   currentCart$: Observable<CartModel>
 
   @ViewChild('searchForm', {static: false}) searchForm: NgForm
@@ -54,7 +54,7 @@ export class HeaderComponent implements OnInit {
     this.cartService.retrieveCurrentCart()
   }
 
-  onNavigateToCategory(category: CategoryModel) {
+  onNavigateToCategory(category: Category) {
     this.router.navigate(['/product-list'],
       {queryParams: {
         category: category.key
@@ -85,7 +85,7 @@ export class HeaderComponent implements OnInit {
   }
 
   resetSelectedCategory() {
-    this.categoryService.setSelectedCategory('')
+    this.categoryService.setSelectedCategory(null)
   }
 
 }

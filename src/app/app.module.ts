@@ -21,6 +21,7 @@ import {allIcons, NgxBootstrapIconsModule} from "ngx-bootstrap-icons";
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import {FormsModule} from "@angular/forms";
+import { LocalizedPipe } from './pipes/localized.pipe';
 
 registerLocaleData(localeDe)
 
@@ -41,6 +42,7 @@ registerLocaleData(localeDe)
     HeaderComponent,
     SmallHeaderComponent,
     CheckoutFooterComponent,
+    LocalizedPipe,
   ],
   imports: [
     BrowserModule,

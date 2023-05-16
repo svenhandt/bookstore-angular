@@ -1,6 +1,5 @@
 import {Inject, Injectable, LOCALE_ID} from '@angular/core';
-import {CategoryModel} from "../data/category.model";
-import {BehaviorSubject, Subject} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import apiRoot from "./builder/BuildClient";
 import {Category, CategoryPagedQueryResponse, ClientResponse} from "@commercetools/platform-sdk";
 
@@ -10,11 +9,11 @@ import {Category, CategoryPagedQueryResponse, ClientResponse} from "@commercetoo
 })
 export class CategoryService {
 
-  private categories: CategoryModel[] = []
-  private selectedCategory: CategoryModel
+  private categories: Category[] = []
+  private selectedCategory: Category
 
-  categoriesSubject = new BehaviorSubject<CategoryModel[]>([])
-  selectedCategorySubject = new BehaviorSubject<CategoryModel>(null)
+  categoriesSubject = new BehaviorSubject<Category[]>([])
+  selectedCategorySubject = new BehaviorSubject<Category>(null)
 
   categories$ = this.categoriesSubject.asObservable()
   selectedCategory$ = this.selectedCategorySubject.asObservable()
@@ -29,10 +28,7 @@ export class CategoryService {
       .get()
       .execute()
       .then(({body}: ClientResponse<CategoryPagedQueryResponse>) => {
-        const results: Category[] = body.results
-        for(const result of results) {
-          this.categories.push(this.buildCategory(result))
-        }
+        this.categories = body.results
         this.categoriesSubject.next(this.categories)
       })
   }
@@ -43,26 +39,14 @@ export class CategoryService {
 
   setSelectedCategory(key: string) {
     if(!key) {
-      this.selectedCategory = new CategoryModel('', '', '', '')
+      this.selectedCategory = null
     }
     if(this.categories && key) {
       this.selectedCategory = this.categories.find(category => {
         return key === category.key
       })
     }
-    if(this.selectedCategory) {
-      this.selectedCategorySubject.next(this.selectedCategory)
-    }
+    this.selectedCategorySubject.next(this.selectedCategory)
   }
-
-  buildCategory(result: Category) {
-    const category = new CategoryModel(
-      result.id,
-      result.key,
-      result.name[this.locale],
-      result.description[this.locale])
-    return category
-  }
-
 
 }
